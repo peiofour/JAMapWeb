@@ -1,0 +1,68 @@
+@import "semantic-ui-css/semantic.min.css";
+@import "./typography.scss";
+
+.header {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login {
+  max-width: 300px;
+  text-align: center;
+}
+
+:root {
+  scroll-behavior: smooth;
+  --size-300: 0.75rem;
+  --size-400: 1rem;
+  --size-500: 1.33rem;
+  --size-600: 1.77rem;
+  --size-700: 2.36rem;
+  --size-800: 3.15rem;
+  --size-900: 4.2rem;
+
+  //--color-main: #37292C;
+  //--color-hover: #37292ca1;
+  --color-main: #000000;
+  --background: #fff;
+  
+  --background-dark: #082032;
+  --background-light: #edf6f9;
+
+  --text-dark: #e6e6e6;
+  --text-light: #333;
+  
+  --color-button: #ff1e56;
+  --color-hover: #ff1e56a1;
+}
+
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  font-family: 'Circular Std Book';
+  color: var(--text-light);
+  background-color: var(--background-light);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  margin: 0; 
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Circular Std Bold';
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
