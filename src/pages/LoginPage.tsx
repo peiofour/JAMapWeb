@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 
-const Login = () => {
+const LoginPage = () => {
 
   return (
     <div className="login container">
@@ -17,4 +17,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
