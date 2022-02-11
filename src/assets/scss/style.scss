@@ -64,9 +64,9 @@
   .popup{
     position: absolute;
     width: 300px;
-    height: 140px;
+    height: 170px;
     background-color: var(--background-dark);
-    bottom: 15px;
+    bottom: 0;
     margin-left: auto;
     margin-right: auto;
     left: 0;
@@ -76,8 +76,12 @@
     z-index: 10;
     opacity: 1;
     transition: visibility 0, opacity 2s linear;
+    
+    .button-popup {
+      margin-top: 7px;
+    }
   }
-  h4, p {
+  h5, p {
     color: var(--background-light);
   }
   .svg-marker {

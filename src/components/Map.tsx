@@ -89,7 +89,8 @@ const Map = () => {
             }
             {popup !== null ? (
               <div className="popup">
-                <div style={{marginTop: "10px", marginBottom: "10px"}}>
+                <h5 className="button-popup">Dernier collage le : 17/06/2022 10:00 </h5>
+                <div className="button-popup">
                   <Button.Group>
                     <Button
                       icon
@@ -104,7 +105,7 @@ const Map = () => {
                     </Button>
                     <Button
                       icon
-                      color="red"
+                      color="brown"
                       labelPosition='left'
                       onClick={()=>window.open(`https://www.google.com/maps/search/?api=1&query=${popup.latitude}%2C${popup.longitude}`, "_blank")}
                     >
@@ -115,8 +116,18 @@ const Map = () => {
                     </Button>
                   </Button.Group>
                 </div>
-                <p>Dernier collage le : </p>
-                <Button color="green">Je viens de coller ce panneau !</Button>
+                <Button icon labelPosition='left' className="button-popup" color="green">
+                  <Icon style={{paddingTop: "7px"}}>
+                    <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/circle-check-solid.svg'} width="20" height="20" fill="white" />
+                  </Icon>
+                  Je viens de coller ce panneau
+                </Button>
+                <Button icon labelPosition='left' className="button-popup" color="red">
+                  <Icon style={{paddingTop: "7px"}}>
+                    <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/triangle-exclamation-solid.svg'} width="20" height="20" fill="white" />
+                  </Icon>
+                  Ce panneau n'existe plus
+                </Button>
               </div> 
             ): null}
           </div>
