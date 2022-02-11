@@ -2,16 +2,16 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Search, SearchProps, SearchResultData } from 'semantic-ui-react';
 
-// interface Props{
+ interface Props{
 //   placeholder: string,
 //   onSelect: Function,
 //   onClear: Function,
 //   onFocus: Function,
 //   onBlur: Function,
 //   newAddress: Object
-// }
+ }
 
-const LocationSearch = () => {
+const LocationSearch: React.FC<Props> = () => {
   const [state, setState] = useState<{results: Array<Object>, isLoading: boolean, focus: boolean}>({
     results: [],
     isLoading: false,
@@ -84,7 +84,7 @@ const LocationSearch = () => {
   }
 
   return (
-    <div className="search container">
+    <div className="searchs container">
       <Search
         loading={state.isLoading}
         placeholder='Recherche dans JAMap'

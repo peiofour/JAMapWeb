@@ -1,14 +1,14 @@
 import React from 'react';
+import Layout from '../components/Layout';
 import LocationSearch from '../components/LocationSearch';
 import Map from '../components/Map';
 
 const BoardsPage = () => {
   return(
-    <div className="boards container">
-      <h2>Panneaux d'affichage</h2>
+    <Layout title="Panneaux d'affichage" className="boards container">
       <LocationSearch />
       <Map />
-    </div>
+    </Layout>
   )
 }
 

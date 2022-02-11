@@ -3,9 +3,9 @@ import React from 'react';
 const NavbarBottom = () => {
 
   return (
-  <nav>
-    
-  </nav>
+  <div className="navbar-bottom">
+    <p>Navbar todo</p>
+  </div>
   )
 }
 

@@ -5,11 +5,11 @@ import Header from './components/Header';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import BoardsPage from './pages/BoardsPage';
+import NavbarBottom from './components/NavbarBottom';
 
 const App = () => {
   return (
     <>
-      <Header/>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<HomePage />} />
