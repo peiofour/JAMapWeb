@@ -4,14 +4,14 @@ import { Button, Search, SearchProps, SearchResultData } from 'semantic-ui-react
 
  interface Props{
 //   placeholder: string,
-//   onSelect: Function,
+  onSelect: Function,
 //   onClear: Function,
 //   onFocus: Function,
 //   onBlur: Function,
 //   newAddress: Object
  }
 
-const LocationSearch: React.FC<Props> = () => {
+const LocationSearch: React.FC<Props> = ({onSelect}) => {
   const [state, setState] = useState<{results: Array<Object>, isLoading: boolean, focus: boolean}>({
     results: [],
     isLoading: false,
@@ -71,7 +71,7 @@ const LocationSearch: React.FC<Props> = () => {
     })
     setSearch(data.result.title)
     console.log(data.result)
-    //onSelect(data)
+    onSelect(data.result.coordinates)
   }
 
   const handleClear = () => {

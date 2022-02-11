@@ -42,14 +42,19 @@ const BoardsPage = () => {
   useEffect(() => {
     if(coordinates) {
       // TODO : requete pour récupérer les markers
-
-      
     }
   }, [coordinates])
 
+  const handleCoordinatesChange = (coordo:Array<number>) => {
+    setCoordinates({
+      latitude: coordo[1],
+      longitude: coordo[0]
+    })
+  }
+
   return(
     <Layout title="Panneaux d'affichage" className="boards container">
-      <LocationSearch />
+      <LocationSearch onSelect={handleCoordinatesChange} />
       <Map centerPos={coordinates} markers={markerTest}/>
     </Layout>
   )
