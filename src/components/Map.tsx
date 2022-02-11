@@ -1,12 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Map as MapGL, Marker} from 'react-map-gl';
+import MapGL, {GeolocateControl, Marker} from 'react-map-gl';
 import SVG from "react-inlinesvg";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button, Icon } from 'semantic-ui-react';
 import ClickAwayListener from 'react-click-away-listener';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-//mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+// mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+
+
+const geolocateControlStyle= {
+  right: 20,
+  bottom: 50,
+  transform: 'scale(1.25)'
+};
 
 interface SVGMarkerProps{
   isSelected: boolean;
@@ -21,63 +28,66 @@ const SvgMarker:React.FC<SVGMarkerProps> = ({isSelected}) => (
 )
 
 
-const markerTest = [
-  {
-    id:0,
-    latitude: 48.86658,
-    longitude: 2.35183
-  },
-  {
-    id:1,
-    latitude: 48.85658,
-    longitude: 2.35183
-  },
-  {
-    id:2,
-    latitude: 48.84658,
-    longitude: 2.35183
-  },
-  {
-    id:3,
-    latitude: 48.85658,
-    longitude: 2.31183
-  },
-]
-
-
-const Map = () => {
+interface Props {
+  markers: Array<{
+    id: number,
+    latitude: number,
+    longitude: number,
+    date: Date | null
+  }>;
+  centerPos: {latitude: number, longitude: number};
+}
+const Map:React.FC<Props> = ({markers, centerPos}) => {
   const [popup, setPopup] = useState<{id: number, longitude: number, latitude: number} | null>(null);
   const [viewport, setViewport] = useState({
     latitude: 48.85658,
     longitude: 2.35183,
-    zoom: 7,
+    zoom: 14,
     bearing: 0,
     pitch: 0,
   });
 
+  useEffect(() => {
+    setViewport({
+      ...viewport,
+      latitude: centerPos?.latitude,
+      longitude: centerPos?.longitude
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [centerPos.latitude, centerPos.longitude])
+
   return (
     <div className="map">
       <MapGL
-        initialViewState={{
-          latitude: 48.85658,
-          longitude: 2.35183,
-          zoom: 14,
-        }}
-        style={{width: '100vw', height: '100%'}}
-        mapStyle="mapbox://styles/mapbox/streets-v9"
+        {...viewport}
+        onViewportChange={setViewport}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        width="100vw"
+        height="100%"
+        mapStyle="mapbox://styles/peiofour/ckzil6aq0006915qzsow5t9x9"
       >
+        <GeolocateControl
+          style={geolocateControlStyle}
+          label='Ma position'
+          positionOptions={{enableHighAccuracy: true}}
+          trackUserLocation={true}
+          showAccuracyCircle={true}
+        />
+
         <ClickAwayListener
           onClickAway={()=> setPopup(null)}
           mouseEvent="click"
         >
           <div>
             {
-              markerTest.map((m) => (
+              markers.map((m) => (
                 <Marker
                   style={{cursor: "pointer"}}
                   key={m.id}
                   longitude={m.longitude}
                   latitude={m.latitude}
+                  offsetLeft={-10}
+                  offsetTop={-15}
                 >
                   <div onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude })}>
                     <SvgMarker
