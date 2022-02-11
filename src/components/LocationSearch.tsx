@@ -69,18 +69,8 @@ const LocationSearch: React.FC<Props> = ({onSelect}) => {
       ...state,
       results: []
     })
-    setSearch(data.result.title)
-    console.log(data.result)
+    setSearch("")
     onSelect(data.result.coordinates)
-  }
-
-  const handleClear = () => {
-    setState({
-      ...state,
-      results: []
-    })
-    setSearch(undefined)
-    //onClear()
   }
 
   return (
