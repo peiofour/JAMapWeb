@@ -27,21 +27,24 @@ const SvgMarker:React.FC<SVGMarkerProps> = ({isSelected}) => (
   />
 )
 
-
 interface Props {
-  markers: Array<{
-    id: number,
-    latitude: number,
-    longitude: number,
-    date: Date | null
-  }>;
+  markers: {
+    id: number;
+    latitude: number;
+    longitude: number;
+    createdAt: Date;
+    isDisabled: Boolean;
+    lastValidationDate: Date; }[];
   centerPos: {latitude: number, longitude: number};
+  onValidateBoard: Function;
+  onDisableBoard: Function;
 }
-const Map:React.FC<Props> = ({markers, centerPos}) => {
-  const [popup, setPopup] = useState<{id: number, longitude: number, latitude: number} | null>(null);
+const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoard}) => {
+  const [popup, setPopup] = useState<{id: number, longitude: number, latitude: number, lastValidationDate: Date } | null>(null);
+
   const [viewport, setViewport] = useState({
-    latitude: 48.85658,
-    longitude: 2.35183,
+    latitude: 43.56767434009124,
+    longitude: 1.464428488224958,
     zoom: 14,
     bearing: 0,
     pitch: 0,
@@ -80,26 +83,25 @@ const Map:React.FC<Props> = ({markers, centerPos}) => {
         >
           <div>
             {
-              markers.map((m) => (
+              markers.map((m) => !m.isDisabled ? (
                 <Marker
-                  style={{cursor: "pointer"}}
                   key={m.id}
                   longitude={m.longitude}
                   latitude={m.latitude}
                   offsetLeft={-10}
                   offsetTop={-15}
                 >
-                  <div onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude })}>
+                  <div style={{cursor: "pointer"}} onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}>
                     <SvgMarker
                       isSelected={popup?.id === m.id}
                     />
                   </div>
                 </Marker>
-              ))
+              ):null)
             }
             {popup !== null ? (
               <div className="popup">
-                <h5 className="button-popup">Dernier collage le : 17/06/2022 10:00 </h5>
+                <h5 className="button-popup">Dernier collage le : {popup.lastValidationDate}</h5>
                 <div className="button-popup">
                   <Button.Group>
                     <Button
@@ -126,13 +128,25 @@ const Map:React.FC<Props> = ({markers, centerPos}) => {
                     </Button>
                   </Button.Group>
                 </div>
-                <Button icon labelPosition='left' className="button-popup" color="green">
+                <Button 
+                  icon 
+                  labelPosition='left' 
+                  className="button-popup" 
+                  color="green"
+                  onClick={() => onValidateBoard(popup.id)}
+                >
                   <Icon style={{paddingTop: "7px"}}>
                     <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/circle-check-solid.svg'} width="20" height="20" fill="white" />
                   </Icon>
                   Je viens de coller ce panneau
                 </Button>
-                <Button icon labelPosition='left' className="button-popup" color="red">
+                <Button
+                  icon
+                  labelPosition='left'
+                  className="button-popup"
+                  color="red"
+                  onClick={() => onDisableBoard(popup.id)}
+                >
                   <Icon style={{paddingTop: "7px"}}>
                     <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/triangle-exclamation-solid.svg'} width="20" height="20" fill="white" />
                   </Icon>
@@ -141,7 +155,6 @@ const Map:React.FC<Props> = ({markers, centerPos}) => {
               </div> 
             ): null}
           </div>
-          
         </ClickAwayListener>
       </MapGL>
       

@@ -3,6 +3,10 @@ import Layout from '../components/Layout';
 import LocationSearch from '../components/LocationSearch';
 import Map from '../components/Map';
 
+import { database as db} from '../utils/firebase';
+import {ref, onValue, get, child} from "firebase/database";
+
+
 const markerTest = [
   {
     id:0,
@@ -30,13 +34,33 @@ const markerTest = [
   },
 ]
 
+
 const BoardsPage = () => {
-  const [markers, setMarkers] = useState(null);
+  const [markers, setMarkers] = useState<{
+    id: number;
+    latitude: number;
+    longitude: number;
+    createdAt: Date;
+    isDisabled: Boolean;
+    lastValidationDate: Date; }[]>([]);
+  
   const [coordinates, setCoordinates] = useState({latitude: 48.86658, longitude: 2.35183});
   const [loading, setLoading] = useState(false);
-
+  
+  const dbRef = ref(db);
+  get(child(dbRef, 'boards')).then((snapshot) => {
+    if(snapshot.exists()){
+      setMarkers(snapshot.val())
+    }else {
+      console.error("No data available")
+    }
+  }).catch((error) => {
+    console.error(error)
+  })
+  
   useEffect(() => {
     window.scrollTo(0, 0)
+    
   }, [])
 
   useEffect(() => {
@@ -52,10 +76,23 @@ const BoardsPage = () => {
     })
   }
 
+  const handleBoardValidate = (id: number) => {
+    console.log("validate ", id)
+  }
+
+  const handleDisableBoard = (id: number) => {
+    console.log("disable ", id)
+  }
+
   return(
     <Layout title="Panneaux d'affichage" className="boards container">
       <LocationSearch onSelect={handleCoordinatesChange} />
-      <Map centerPos={coordinates} markers={markerTest}/>
+      <Map
+        centerPos={coordinates}
+        markers={markers}
+        onDisableBoard={handleDisableBoard}
+        onValidateBoard={handleBoardValidate}
+      />
     </Layout>
   )
 }
