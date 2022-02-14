@@ -4,7 +4,7 @@ import LocationSearch from '../components/LocationSearch';
 import Map from '../components/Map';
 
 import { database as db} from '../utils/firebase';
-import {ref, onValue, get, set, child} from "firebase/database";
+import {ref, onValue, set, child, get} from "firebase/database";
 
 
 const BoardsPage = () => {
@@ -19,27 +19,18 @@ const BoardsPage = () => {
   const [coordinates, setCoordinates] = useState({latitude: 43.56767434009124, longitude: 1.464428488224958});
   //const [loading, setLoading] = useState(false);
   
-  const dbRef = ref(db);
-  get(child(dbRef, 'boards')).then((snapshot) => {
-    if(snapshot.exists()){
+  useEffect(() => {
+    onValue(ref(db, 'boards'), (snapshot) => {
       setMarkers(snapshot.val())
-    }else {
-      console.error("No data available")
-    }
-  }).catch((error) => {
-    console.error(error)
-  })
+    }, {
+      onlyOnce: true
+    })
+  }, [])
   
   useEffect(() => {
     window.scrollTo(0, 0)
     
   }, [])
-
-  useEffect(() => {
-    if(coordinates) {
-      // TODO : requete pour récupérer les markers
-    }
-  }, [coordinates])
 
   const handleCoordinatesChange = (coordo:Array<number>) => {
     setCoordinates({
@@ -54,7 +45,9 @@ const BoardsPage = () => {
   }
 
   const handleDisableBoard = (id: number) => {
-    set(ref(db, 'boards/' + id + '/isDisabled'), true)
+    set(ref(db, 'boards/' + id + '/isDisabled'), true).then(() => {
+      get(child(ref(db), 'boards')).then((snapshot) => {setMarkers(snapshot.val())})
+    })
   }
 
   return(

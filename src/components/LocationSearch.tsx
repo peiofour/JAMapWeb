@@ -1,14 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Button, Search, SearchProps, SearchResultData } from 'semantic-ui-react';
+import { Search, SearchProps, SearchResultData } from 'semantic-ui-react';
 
  interface Props{
-//   placeholder: string,
   onSelect: Function,
-//   onClear: Function,
-//   onFocus: Function,
-//   onBlur: Function,
-//   newAddress: Object
  }
 
 const LocationSearch: React.FC<Props> = ({onSelect}) => {
@@ -46,8 +41,6 @@ const LocationSearch: React.FC<Props> = ({onSelect}) => {
       })
       return;
     }
-
-    // TODO: axios get mapbox places  
     
     axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${search}.json?access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}&cachebuster=1623166568366&autocomplete=true&country=fr%2Cmq%2Cmf%2Cyt%2Cpf&language=fr`)
       .then((response) => {
