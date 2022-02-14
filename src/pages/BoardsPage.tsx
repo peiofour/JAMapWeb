@@ -4,7 +4,7 @@ import LocationSearch from '../components/LocationSearch';
 import Map from '../components/Map';
 
 import { database as db} from '../utils/firebase';
-import {ref, onValue, get, child} from "firebase/database";
+import {ref, onValue, get, set, child} from "firebase/database";
 
 
 const markerTest = [
@@ -77,7 +77,8 @@ const BoardsPage = () => {
   }
 
   const handleBoardValidate = (id: number) => {
-    console.log("validate ", id)
+    const date = new Date();
+    set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleDateString("fr-FR"))
   }
 
   const handleDisableBoard = (id: number) => {
