@@ -7,34 +7,6 @@ import { database as db} from '../utils/firebase';
 import {ref, onValue, get, set, child} from "firebase/database";
 
 
-const markerTest = [
-  {
-    id:0,
-    latitude: 48.86658,
-    longitude: 2.35183,
-    date: null
-  },
-  {
-    id:1,
-    latitude: 48.85658,
-    longitude: 2.35183,
-    date: null
-  },
-  {
-    id:2,
-    latitude: 48.84658,
-    longitude: 2.35183,
-    date: null
-  },
-  {
-    id:3,
-    latitude: 48.85658,
-    longitude: 2.31183,
-    date: null
-  },
-]
-
-
 const BoardsPage = () => {
   const [markers, setMarkers] = useState<{
     id: number;
@@ -42,10 +14,10 @@ const BoardsPage = () => {
     longitude: number;
     createdAt: Date;
     isDisabled: Boolean;
-    lastValidationDate: Date; }[]>([]);
+    lastValidationDate: Date | string; }[]>([]);
   
-  const [coordinates, setCoordinates] = useState({latitude: 48.86658, longitude: 2.35183});
-  const [loading, setLoading] = useState(false);
+  const [coordinates, setCoordinates] = useState({latitude: 43.56767434009124, longitude: 1.464428488224958});
+  //const [loading, setLoading] = useState(false);
   
   const dbRef = ref(db);
   get(child(dbRef, 'boards')).then((snapshot) => {
@@ -82,7 +54,7 @@ const BoardsPage = () => {
   }
 
   const handleDisableBoard = (id: number) => {
-    console.log("disable ", id)
+    set(ref(db, 'boards/' + id + '/isDisabled'), true)
   }
 
   return(

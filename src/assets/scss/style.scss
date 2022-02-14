@@ -61,6 +61,21 @@
 
 .map {
   height: 100%;
+
+  .disable-popup {
+    z-index: 11;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    width: 300px;
+    height: 170px;
+    background-color: var(--background-dark);
+    border-radius: 20px;
+    bottom: 10px;
+  }
+
   .popup{
     position: absolute;
     width: 300px;
@@ -75,13 +90,13 @@
     box-shadow: 0 5px 35px;
     z-index: 10;
     opacity: 1;
+    bottom: 10px;
     transition: visibility 0, opacity 2s linear;
-    
-    .button-popup {
-      margin-top: 7px;
-    }
   }
-  h5, p {
+  .button-popup {
+    margin-top: 7px;
+  }
+  h5,h3,p {
     color: var(--background-light);
   }
   .svg-marker {

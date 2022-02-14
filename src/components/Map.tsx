@@ -34,14 +34,14 @@ interface Props {
     longitude: number;
     createdAt: Date;
     isDisabled: Boolean;
-    lastValidationDate: Date; }[];
+    lastValidationDate: Date | string; }[];
   centerPos: {latitude: number, longitude: number};
   onValidateBoard: Function;
   onDisableBoard: Function;
 }
 const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoard}) => {
-  const [popup, setPopup] = useState<{id: number, longitude: number, latitude: number, lastValidationDate: Date } | null>(null);
-
+  const [popup, setPopup] = useState<{id: number, longitude: number, latitude: number, lastValidationDate: Date | string } | null>(null);
+  const [disablePopup, setDisablePopup] = useState<boolean>(false);
   const [viewport, setViewport] = useState({
     latitude: 43.56767434009124,
     longitude: 1.464428488224958,
@@ -58,6 +58,20 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [centerPos.latitude, centerPos.longitude])
+
+  const disableBoard = () => {
+    onDisableBoard(popup?.id)
+    setDisablePopup(false);
+    setPopup(null);
+  }
+
+  const validateBoard = () => {
+    onValidateBoard(popup?.id)
+    const date = new Date().toLocaleDateString("fr-FR");
+    if(popup) {
+      setPopup({...popup, lastValidationDate: date})
+    }
+  }
 
   return (
     <div className="map">
@@ -99,6 +113,14 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                 </Marker>
               ):null)
             }
+            {
+              disablePopup && 
+              <div className="disable-popup">
+                <h3 className="button-popup">Êtes-vous sur que ce panneau n'existe plus ?</h3>
+                <Button color="green" onClick={disableBoard}>Oui il n'existe plus</Button>
+                <Button color="red" onClick={()=>setDisablePopup(false)}>Annuler</Button>
+              </div>
+            }
             {popup !== null ? (
               <div className="popup">
                 <h5 className="button-popup">Dernier collage le : {popup.lastValidationDate}</h5>
@@ -133,7 +155,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                   labelPosition='left' 
                   className="button-popup" 
                   color="green"
-                  onClick={() => onValidateBoard(popup.id)}
+                  onClick={validateBoard}
                 >
                   <Icon style={{paddingTop: "7px"}}>
                     <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/circle-check-solid.svg'} width="20" height="20" fill="white" />
@@ -145,7 +167,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                   labelPosition='left'
                   className="button-popup"
                   color="red"
-                  onClick={() => onDisableBoard(popup.id)}
+                  onClick={() => setDisablePopup(true)}
                 >
                   <Icon style={{paddingTop: "7px"}}>
                     <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/triangle-exclamation-solid.svg'} width="20" height="20" fill="white" />
