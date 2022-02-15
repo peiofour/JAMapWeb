@@ -2,6 +2,10 @@
   "name": "jam-map-web",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node":"16.13.2",
+    "npm":"8.1.2"
+  },
   "dependencies": {
     "@semantic-ui-react/css-patch": "^1.0.0",
     "@testing-library/jest-dom": "^5.16.2",
