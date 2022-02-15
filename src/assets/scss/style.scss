@@ -18,6 +18,7 @@
 .container {
   margin-left: auto;
   margin-right: auto;
+  
 }
 
 .login {
@@ -27,6 +28,25 @@
 
 .home {
   text-align: center;
+  height: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 80px;
+  height: 100%;
+
+  &__images {
+    margin-left: auto;
+    margin-right: auto;
+    img {
+      width: 100px;
+    }
+  }
+
+  p {
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: var(--size-400);
+  }
 }
 
 .boards {
@@ -84,7 +104,7 @@
     height: 170px;
     background-color: var(--background-dark);
     border-radius: 20px;
-    bottom: 10px;
+    bottom: 20px;
   }
 
   .popup{
@@ -101,7 +121,7 @@
     box-shadow: 0 5px 35px;
     z-index: 10;
     opacity: 1;
-    bottom: 10px;
+    bottom: 20px;
     transition: visibility 0, opacity 2s linear;
   }
   .button-popup {

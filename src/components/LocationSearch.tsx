@@ -75,6 +75,7 @@ const LocationSearch: React.FC<Props> = ({onSelect}) => {
         onSearchChange={handleSearchChange}
         results={state.results}
         value={search}
+        size="large"
       />
     </div>
   )
