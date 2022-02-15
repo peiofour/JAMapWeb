@@ -130,7 +130,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                       icon
                       color="blue"
                       labelPosition='left'
-                      onClick={()=>window.open(`https://www.waze.com/ul?ll=${popup.latitude}%2C${popup.longitude}&navigate=yes&zoom=17`, "_blank")}
+                      onClick={()=>window.open(`https://www.waze.com/ul?ll=${popup.latitude}%2C${popup.longitude}&navigate=yes&zoom=17`)}
                     >
                       <Icon style={{paddingTop: "7px"}}>
                         <SVG style={{verticalAlign: "bottom"}} src={process.env.PUBLIC_URL + '/icons/waze-brands.svg'} width="20" height="20" fill="white" />
@@ -141,7 +141,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                       icon
                       color="brown"
                       labelPosition='left'
-                      onClick={()=>window.open(`https://www.google.com/maps/search/?api=1&query=${popup.latitude}%2C${popup.longitude}`, "_blank")}
+                      onClick={()=>window.open(`https://www.google.com/maps/search/?api=1&query=${popup.latitude}%2C${popup.longitude}`)}
                     >
                       <Icon style={{paddingTop: "7px"}}>
                         <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/google-brands.svg'} width="20" height="20" fill="white" />
