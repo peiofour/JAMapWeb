@@ -11,7 +11,7 @@ const Layout:React.FC<Props> = ({children, className, title}) => (
   <div className="primary-container">
     <title>{title}</title>
     <Header/>
-    <main className={className}>
+    <main className={"layout " + className}>
       {children}
     </main>
     <NavbarBottom />

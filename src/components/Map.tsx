@@ -5,8 +5,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button, Icon } from 'semantic-ui-react';
 import ClickAwayListener from 'react-click-away-listener';
 
-// eslint-disable-next-line import/no-webpack-loader-syntax
-// mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 
 const geolocateControlStyle= {
@@ -67,7 +65,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
 
   const validateBoard = () => {
     onValidateBoard(popup?.id)
-    const date = new Date().toLocaleDateString("fr-FR");
+    const date = new Date().toLocaleString("fr-FR");
     if(popup) {
       setPopup({...popup, lastValidationDate: date})
     }

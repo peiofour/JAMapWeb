@@ -41,7 +41,7 @@ const BoardsPage = () => {
 
   const handleBoardValidate = (id: number) => {
     const date = new Date();
-    set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleDateString("fr-FR"))
+    set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleString("fr-FR"))
   }
 
   const handleDisableBoard = (id: number) => {
