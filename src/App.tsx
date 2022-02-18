@@ -8,14 +8,13 @@ import BoardsPage from './pages/BoardsPage';
 import NavbarBottom from './components/NavbarBottom';
 
 const App = () => {
+  
   return (
-    <>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/boards" element={<BoardsPage />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/boards" element={<BoardsPage />} />
+    </Routes>
   );
 }
 

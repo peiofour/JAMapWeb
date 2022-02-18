@@ -9,11 +9,10 @@ interface Props{
 };
 const Layout:React.FC<Props> = ({children, className, title}) => (
   <div className="primary-container">
-    <title>{title}</title>
     <Header/>
-    <main className={"layout " + className}>
+    <div className={"layout " + className}>
       {children}
-    </main>
+    </div>
     <NavbarBottom />
   </div>
 )

@@ -3,10 +3,10 @@
 
 
 .primary-container {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
+  height: 100%;
 }
 
 .header {
@@ -22,13 +22,11 @@
 }
 
 .layout{
-  margin-top: 60px;
-  margin-bottom: 60px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .navbar-bottom {
-  padding-top: 15px;
-  padding-bottom: 15px;
   text-align: center;
   align-items: center;
   width: 100%;
@@ -52,7 +50,6 @@
 .container {
   margin-left: auto;
   margin-right: auto;
-  
 }
 
 .login {
@@ -62,7 +59,6 @@
 
 .home {
   text-align: center;
-  height: 100%;
   padding-left: 15px;
   padding-right: 15px;
 
@@ -82,8 +78,8 @@
 }
 
 .boards {
-  height: 100%;
   text-align: center;
+  height: 100%;
   .searchs {
     position: absolute;
     z-index: 11;
@@ -104,7 +100,7 @@
 
 .map {
   height: 100%;
-
+  overflow: auto;
   .disable-popup {
     z-index: 11;
     position: absolute;
@@ -153,6 +149,37 @@
   display: none;
 }
 
+
+body {
+  font-family: 'Circular Std Book';
+  color: var(--text-light);
+  background-color: var(--background-light);
+  min-height: 100vh;
+  line-height: 1.5;
+  margin: 0; 
+  padding: 0;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* The hack for Safari */
+    min-height: -webkit-fill-available;
+  }
+}
+
+#root {
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Circular Std Bold';
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
 :root {
   scroll-behavior: smooth;
   --size-300: 0.75rem;
@@ -176,28 +203,4 @@
   
   --color-button: #ff1e56;
   --color-hover: #ff1e56a1;
-}
-
-html {
-  height: -webkit-fill-available;
-}
-
-body {
-  font-family: 'Circular Std Book';
-  color: var(--text-light);
-  background-color: var(--background-light);
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  text-rendering: optimizeSpeed;
-  line-height: 1.5;
-  margin: 0; 
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Circular Std Bold';
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }

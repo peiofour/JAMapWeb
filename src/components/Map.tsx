@@ -43,7 +43,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
   const [viewport, setViewport] = useState({
     latitude: 43.56767434009124,
     longitude: 1.464428488224958,
-    zoom: 14,
+    zoom: 11,
     bearing: 0,
     pitch: 0,
   });

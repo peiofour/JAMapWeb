@@ -6,6 +6,7 @@ import App from "./App"
 
 import './assets/scss/style.scss';
 
+
 ReactDOM.render(
   <BrowserRouter>
     <App />
