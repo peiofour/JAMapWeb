@@ -1,7 +1,8 @@
 import React from 'react';
-import SVG from "react-inlinesvg";
 import { useNavigate } from 'react-router-dom';
 
+import {ReactComponent as HomeLogo} from '../assets/icons/house-solid.svg'
+import {ReactComponent as MapLogo} from '../assets/icons/map-location-dot-solid.svg'
 
 const NavbarBottom = () => {
   const navigate = useNavigate();
@@ -9,17 +10,15 @@ const NavbarBottom = () => {
   return (
   <nav className="navbar-bottom">
     <div className="navbar-bottom__item" onClick={()=>navigate("/")}>
-      <SVG 
+      <HomeLogo
         width={25}
-        height={25} 
-        src={process.env.PUBLIC_URL + '/icons/house-solid.svg'} 
+        height={25}
       />
     </div>
     <div className="navbar-bottom__item" onClick={()=>navigate("/boards")}>
-      <SVG 
+      <MapLogo
         width={25}
         height={25} 
-        src={process.env.PUBLIC_URL + '/icons/map-location-dot-solid.svg'} 
       />
     </div>
     

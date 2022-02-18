@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import MapGL, {GeolocateControl, Marker} from 'react-map-gl';
-import SVG from "react-inlinesvg";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button, Icon } from 'semantic-ui-react';
 import ClickAwayListener from 'react-click-away-listener';
 
+import {ReactComponent as MarkerLogo} from "../assets/icons/map-pin.svg";
+import {ReactComponent as GoogleLogo} from "../assets/icons/google-brands.svg";
+import {ReactComponent as WazeLogo} from "../assets/icons/waze-brands.svg";
+import {ReactComponent as WarningLogo} from "../assets/icons/triangle-exclamation-solid.svg";
+import {ReactComponent as CheckLogo} from "../assets/icons/circle-check-solid.svg";
 
 
 const geolocateControlStyle= {
@@ -12,18 +16,6 @@ const geolocateControlStyle= {
   bottom: 50,
   transform: 'scale(1.25)'
 };
-
-interface SVGMarkerProps{
-  isSelected: boolean;
-}
-const SvgMarker:React.FC<SVGMarkerProps> = ({isSelected}) => (
-  <SVG
-    className={isSelected ? "svg-marker" : ''}
-    width={isSelected ? 40:30} 
-    height={isSelected ? 40:30} 
-    src={process.env.PUBLIC_URL + '/icons/map-pin.svg'} 
-  />
-)
 
 interface Props {
   markers: {
@@ -103,11 +95,13 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                   offsetLeft={-10}
                   offsetTop={-15}
                 >
-                  <div style={{cursor: "pointer"}} onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}>
-                    <SvgMarker
-                      isSelected={popup?.id === m.id}
-                    />
-                  </div>
+                  <MarkerLogo
+                    style={{cursor: "pointer"}}
+                    onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
+                    className={popup?.id === m.id ? "svg-marker" : ''}
+                    width={30} 
+                    height={30} 
+                  />
                 </Marker>
               ):null)
             }
@@ -131,7 +125,12 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                       onClick={()=>window.open(`https://www.waze.com/ul?ll=${popup.latitude}%2C${popup.longitude}&navigate=yes&zoom=17`)}
                     >
                       <Icon style={{paddingTop: "7px"}}>
-                        <SVG style={{verticalAlign: "bottom"}} src={process.env.PUBLIC_URL + '/icons/waze-brands.svg'} width="20" height="20" fill="white" />
+                        <WazeLogo
+                          style={{verticalAlign: "bottom"}}
+                          width="20"
+                          height="20"
+                          fill="white"
+                        />
                       </Icon>
                       Waze
                     </Button>
@@ -142,7 +141,12 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                       onClick={()=>window.open(`https://www.google.com/maps/search/?api=1&query=${popup.latitude}%2C${popup.longitude}`)}
                     >
                       <Icon style={{paddingTop: "7px"}}>
-                        <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/google-brands.svg'} width="20" height="20" fill="white" />
+                        <GoogleLogo
+                          style={{verticalAlign: "bottom"}}
+                          width="20"
+                          height="20"
+                          fill="white"
+                        />
                       </Icon>
                       Maps
                     </Button>
@@ -156,7 +160,12 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                   onClick={validateBoard}
                 >
                   <Icon style={{paddingTop: "7px"}}>
-                    <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/circle-check-solid.svg'} width="20" height="20" fill="white" />
+                    <CheckLogo
+                      style={{verticalAlign: "bottom"}}
+                      width="20"
+                      height="20"
+                      fill="white"
+                    />
                   </Icon>
                   Je viens de coller ce panneau
                 </Button>
@@ -168,7 +177,12 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                   onClick={() => setDisablePopup(true)}
                 >
                   <Icon style={{paddingTop: "7px"}}>
-                    <SVG style={{verticalAlign: "middle"}} src={process.env.PUBLIC_URL + '/icons/triangle-exclamation-solid.svg'} width="20" height="20" fill="white" />
+                    <WarningLogo
+                      style={{verticalAlign: "bottom"}}
+                      width="20"
+                      height="20"
+                      fill="white"
+                    />
                   </Icon>
                   Ce panneau n'existe plus
                 </Button>
