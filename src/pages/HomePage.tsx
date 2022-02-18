@@ -18,6 +18,7 @@ const HomePage = () => {
         Accéder à la carte
       </Button>
       <p>Le site est optimisé pour une utilisation sur smartphone.</p>
+      <p>Développé par <a href="http://pierrefournier.dev" target="_blank" rel="noreferrer">Pierre Fournier</a> (<a href="https://t.me/superbasque" target="_blank" rel="noreferrer">Telegram</a>).<br/>Logo par Océane Larousse</p>
     </Layout>
   )
 }
