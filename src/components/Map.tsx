@@ -10,6 +10,24 @@ import {ReactComponent as WazeLogo} from "../assets/icons/waze-brands.svg";
 import {ReactComponent as WarningLogo} from "../assets/icons/triangle-exclamation-solid.svg";
 import {ReactComponent as CheckLogo} from "../assets/icons/circle-check-solid.svg";
 
+function toRad(degrees: number)
+{
+  return degrees * Math.PI/180;
+}
+
+function calcDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371; // km
+  const dLat = toRad(lat2-lat1);
+  const dLon = toRad(lon2-lon1);
+  lat1 = toRad(lat1);
+  lat2 = toRad(lat2);
+
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  const d = R * c;
+  return d;
+}
 
 const geolocateControlStyle= {
   right: 20,
@@ -63,6 +81,17 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
     }
   }
 
+  const showMarker = (marker: {
+    id: number;
+    latitude: number;
+    longitude: number;
+    createdAt: Date;
+    isDisabled: Boolean;
+    lastValidationDate: Date | string; }) => {
+
+    return !marker.isDisabled && calcDistance(marker.latitude, marker.longitude, viewport.latitude, viewport.longitude) < 12
+  }
+
   return (
     <div className="map">
       <MapGL
@@ -87,7 +116,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
         >
           <div>
             {
-              markers.map((m) => !m.isDisabled ? (
+              markers.map((m) => showMarker(m) ? (
                 <Marker
                   key={m.id}
                   longitude={m.longitude}
@@ -99,6 +128,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                     style={{cursor: "pointer"}}
                     onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
                     className={popup?.id === m.id ? "svg-marker" : ''}
+                    fill="red"
                     width={30} 
                     height={30} 
                   />
