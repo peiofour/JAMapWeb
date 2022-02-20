@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className="header">
       <img 
-        src={process.env.PUBLIC_URL + "/images/logo.png"}
+        src={process.env.PUBLIC_URL + "/images/jamaplogo.png"}
         alt="logo"
         width="170"
         onClick={()=>{navigate('/')}}
