@@ -8,9 +8,8 @@ const Header = () => {
       <img 
         src={process.env.PUBLIC_URL + "/images/logo.png"}
         alt="logo"
-        width="220"
+        width="170"
         onClick={()=>{navigate('/')}}
-        style={{cursor: "pointer"}}
       />
     </header>
   )
