@@ -67,13 +67,13 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [centerPos.latitude, centerPos.longitude])
 
-  const disableBoard = () => {
+  const disableBoard = ():void => {
     onDisableBoard(popup?.id)
     setDisablePopup(false);
     setPopup(null);
   }
 
-  const validateBoard = () => {
+  const validateBoard = ():void => {
     onValidateBoard(popup?.id)
     const date = new Date().toLocaleString("fr-FR");
     if(popup) {
@@ -87,9 +87,9 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
     longitude: number;
     createdAt: Date;
     isDisabled: Boolean;
-    lastValidationDate: Date | string; }) => {
+    lastValidationDate: Date | string; }):boolean => {
 
-    return !marker.isDisabled && calcDistance(marker.latitude, marker.longitude, viewport.latitude, viewport.longitude) < 12
+    return 'latitude' in marker && !marker.isDisabled && calcDistance(marker.latitude, marker.longitude, viewport.latitude, viewport.longitude) < 10
   }
 
   return (
