@@ -46,7 +46,7 @@ const BoardsPage = () => {
 
   const handleDisableBoard = (id: number | String) => {
     set(ref(db, 'boards/' + id + '/isDisabled'), true).then(() => {
-      get(child(ref(db), 'testboards')).then((snapshot) => {setMarkers(snapshot.val())})
+      get(child(ref(db), 'boards')).then((snapshot) => {setMarkers(snapshot.val())})
     })
   }
 
