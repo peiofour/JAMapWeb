@@ -9,7 +9,7 @@ import {ref, onValue, set, child, get} from "firebase/database";
 
 const BoardsPage = () => {
   const [markers, setMarkers] = useState<{
-    id: number;
+    id: number | string;
     latitude: number;
     longitude: number;
     createdAt: Date;
@@ -39,14 +39,14 @@ const BoardsPage = () => {
     })
   }
 
-  const handleBoardValidate = (id: number) => {
+  const handleBoardValidate = (id: number | String) => {
     const date = new Date();
     set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleString("fr-FR"))
   }
 
-  const handleDisableBoard = (id: number) => {
+  const handleDisableBoard = (id: number | String) => {
     set(ref(db, 'boards/' + id + '/isDisabled'), true).then(() => {
-      get(child(ref(db), 'boards')).then((snapshot) => {setMarkers(snapshot.val())})
+      get(child(ref(db), 'testboards')).then((snapshot) => {setMarkers(snapshot.val())})
     })
   }
 

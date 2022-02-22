@@ -37,7 +37,7 @@ const geolocateControlStyle= {
 
 interface Props {
   markers: {
-    id: number;
+    id: number | string;
     latitude: number;
     longitude: number;
     createdAt: Date;
@@ -48,7 +48,7 @@ interface Props {
   onDisableBoard: Function;
 }
 const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoard}) => {
-  const [popup, setPopup] = useState<{id: number, longitude: number, latitude: number, lastValidationDate: Date | string } | null>(null);
+  const [popup, setPopup] = useState<{id: number | string, longitude: number, latitude: number, lastValidationDate: Date | string } | null>(null);
   const [disablePopup, setDisablePopup] = useState<boolean>(false);
   const [viewport, setViewport] = useState({
     latitude: 43.56767434009124,
@@ -82,7 +82,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
   }
 
   const showMarker = (marker: {
-    id: number;
+    id: number | string;
     latitude: number;
     longitude: number;
     createdAt: Date;
@@ -116,9 +116,9 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
         >
           <div>
             {
-              markers.map((m) => showMarker(m) ? (
+              markers.map((m, id) => showMarker(m) ? (
                 <Marker
-                  key={m.id}
+                  key={id}
                   longitude={m.longitude}
                   latitude={m.latitude}
                   offsetLeft={-10}
