@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from 'react-router-dom';
+
+import { auth, logout } from "../utils/firebase";
+
 import Layout from '../components/Layout';
 import LocationSearch from '../components/LocationSearch';
 import Map from '../components/Map';
@@ -8,6 +13,13 @@ import {ref, onValue, set, child, get} from "firebase/database";
 
 
 const BoardsPage = () => {
+  const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+  useEffect(() => {
+    if(loading) return;
+    if(!user) return navigate("/login");
+  })
+  
   const [markers, setMarkers] = useState<{
     id: number | string;
     latitude: number;

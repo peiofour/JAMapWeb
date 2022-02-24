@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import Layout from '../components/Layout';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, logout } from "../utils/firebase";
+
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+  useEffect(() => {
+    if(loading) return;
+    if(!user) return navigate("/login");
+  })
+  
   return (
     <Layout title="Accueil" className="home container">
       <h1>Bienvenue sur JAMap.</h1>
@@ -19,6 +28,10 @@ const HomePage = () => {
       </Button>
       <p>Le site est optimisé pour une utilisation sur smartphone.</p>
       <p>Développé par <a href="http://pierrefournier.dev" target="_blank" rel="noreferrer">Pierre Fournier</a> (<a href="https://t.me/superbasque" target="_blank" rel="noreferrer">Telegram</a>).<br/>Logo par Océane Larousse</p>
+    
+      <Button color="grey" onClick={logout}>
+        Se déconnecter
+      </Button>
     </Layout>
   )
 }

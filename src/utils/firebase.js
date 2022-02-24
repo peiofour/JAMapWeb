@@ -1,5 +1,13 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from "firebase/database";
+import {
+  getAuth,
+  //signInWithPopup,
+  signInWithEmailAndPassword,
+  //createUserWithEmailAndPassword,
+  //sendPasswordResetEmail,
+  signOut,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,5 +23,28 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app)
+const database = getDatabase(app)
 
-export const database = getDatabase(app)
+
+//Auth
+
+const logInWithEmailAndPassword = async (user, password) => {
+  try {
+    await signInWithEmailAndPassword(auth, user+"@jamap.fr", password);
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
+
+const logout = () => {
+  signOut(auth);
+};
+
+export {
+  auth,
+  database,
+  logInWithEmailAndPassword,
+  logout
+}
