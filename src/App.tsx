@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import BoardsPage from './pages/BoardsPage';
 import AddBoardPage from './pages/AddBoardPage';
+import AddMemberPage from './pages/AddMemberPage';
 
 const App = () => {
 
@@ -14,6 +15,7 @@ const App = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/boards" element={<BoardsPage />} />
       <Route path="/addboard" element={<AddBoardPage />} />
+      <Route path="/addmember" element={<AddMemberPage />} />
     </Routes>
   );
 }

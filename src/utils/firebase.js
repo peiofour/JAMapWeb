@@ -55,6 +55,8 @@ const registerWithEmailAndPassword = async (email, password, role) => {
       email,
       role: role
     });
+    alert("Membre ajouté")
+    logout()
   } catch (err) {
     console.error(err);
     alert(err.message);
