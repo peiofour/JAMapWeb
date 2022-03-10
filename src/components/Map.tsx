@@ -145,7 +145,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
             }
             {popup !== null ? (
               <div className="popup">
-                <h5 className="button-popup">Dernier collage le : {popup.lastValidationDate}</h5>
+                <h5 className="button-popup">Dernier collage : {popup.lastValidationDate}</h5>
                 <div className="button-popup">
                   <Button.Group>
                     <Button

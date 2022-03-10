@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from 'react-router-dom';
 
-import { auth, logout } from "../utils/firebase";
+import { auth } from "../utils/firebase";
 
 import Layout from '../components/Layout';
 import LocationSearch from '../components/LocationSearch';
@@ -44,10 +44,15 @@ const BoardsPage = () => {
     
   }, [])
 
-  const handleCoordinatesChange = (coordo:Array<number>) => {
+  const handleCoordinatesChange = (result:{
+    title: string,
+    id: string,
+    coordinates: Array<number>,
+    city: string,
+  }) => {
     setCoordinates({
-      latitude: coordo[1],
-      longitude: coordo[0]
+      latitude: result.coordinates[1],
+      longitude: result.coordinates[0]
     })
   }
 

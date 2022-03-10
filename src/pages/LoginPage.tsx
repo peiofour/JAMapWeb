@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Form, FormProps } from 'semantic-ui-react';
-import { Link, useNavigate } from "react-router-dom";
+import { Form } from 'semantic-ui-react';
+import { useNavigate } from "react-router-dom";
 
 import { auth, logInWithEmailAndPassword } from '../utils/firebase';
 import Layout from '../components/Layout';
-
-
 
 const LoginPage = () => {
   const navigate = useNavigate();

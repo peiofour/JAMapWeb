@@ -1,10 +1,18 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from "firebase/database";
+import { 
+  getFirestore,
+  query,
+  getDocs,
+  collection,
+  where,
+  addDoc, 
+} from "firebase/firestore";
 import {
   getAuth,
   //signInWithPopup,
   signInWithEmailAndPassword,
-  //createUserWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   //sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
@@ -25,13 +33,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 const database = getDatabase(app)
-
+const firestoreDb = getFirestore(app);
 
 //Auth
 
 const logInWithEmailAndPassword = async (user, password) => {
   try {
     await signInWithEmailAndPassword(auth, user+"@jamap.fr", password);
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
+
+const registerWithEmailAndPassword = async (email, password, role) => {
+  try {
+    const res = await createUserWithEmailAndPassword(auth, email+'@jamap.fr', password);
+    const user = res.user;
+    await addDoc(collection(firestoreDb, "users"), {
+      uid: user.uid,
+      email,
+      role: role
+    });
   } catch (err) {
     console.error(err);
     alert(err.message);
@@ -45,6 +68,8 @@ const logout = () => {
 export {
   auth,
   database,
+  firestoreDb,
   logInWithEmailAndPassword,
+  registerWithEmailAndPassword,
   logout
 }

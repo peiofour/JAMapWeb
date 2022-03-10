@@ -9,7 +9,7 @@
   height: 100%;
 }
 
-.header {
+.header-page {
   position: fixed;
   display: flex;
   width: 100%;
@@ -80,6 +80,13 @@
     padding-top: 10px;
     font-size: var(--size-400);
   }
+}
+
+.add-board-page {
+  margin-top: 15px;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .boards {
