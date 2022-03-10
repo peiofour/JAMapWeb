@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import {ReactComponent as HomeLogo} from '../assets/icons/house-solid.svg'
 import {ReactComponent as MapLogo} from '../assets/icons/map-location-dot-solid.svg'
+import {ReactComponent as AddLogo} from '../assets/icons/circle-plus-solid.svg'
 
 const NavbarBottom = () => {
   const navigate = useNavigate();
@@ -11,6 +12,12 @@ const NavbarBottom = () => {
   <nav className="navbar-bottom">
     <div className="navbar-bottom__item" onClick={()=>navigate("/")}>
       <HomeLogo
+        width={25}
+        height={25}
+      />
+    </div>
+    <div className="navbar-bottom__item" onClick={()=>navigate("/addboard")}>
+      <AddLogo
         width={25}
         height={25}
       />

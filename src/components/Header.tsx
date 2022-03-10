@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
   const navigate = useNavigate();
   return (
-    <header className="header">
+    <header className="header-page">
       <img 
         src={process.env.PUBLIC_URL + "/images/jamaplogo.png"}
         alt="logo"

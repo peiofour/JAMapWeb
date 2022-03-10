@@ -50,7 +50,8 @@ const LocationSearch: React.FC<Props> = ({onSelect}) => {
             return {
               title: place.place_name_fr,
               id: place.id,
-              coordinates: place.geometry.coordinates
+              coordinates: place.geometry.coordinates,
+              city: place.place_name_fr
           }}),
           isLoading: false
         })
@@ -63,7 +64,7 @@ const LocationSearch: React.FC<Props> = ({onSelect}) => {
       results: []
     })
     setSearch("")
-    onSelect(data.result.coordinates)
+    onSelect(data.result)
   }
 
   return (

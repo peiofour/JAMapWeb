@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from 'react-router-dom';
+
+import { auth } from "../utils/firebase";
+
 import Layout from '../components/Layout';
 import LocationSearch from '../components/LocationSearch';
 import Map from '../components/Map';
@@ -8,6 +13,13 @@ import {ref, onValue, set, child, get} from "firebase/database";
 
 
 const BoardsPage = () => {
+  const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+  useEffect(() => {
+    if(loading) return;
+    if(!user) return navigate("/login");
+  })
+  
   const [markers, setMarkers] = useState<{
     id: number | string;
     latitude: number;
@@ -32,10 +44,15 @@ const BoardsPage = () => {
     
   }, [])
 
-  const handleCoordinatesChange = (coordo:Array<number>) => {
+  const handleCoordinatesChange = (result:{
+    title: string,
+    id: string,
+    coordinates: Array<number>,
+    city: string,
+  }) => {
     setCoordinates({
-      latitude: coordo[1],
-      longitude: coordo[0]
+      latitude: result.coordinates[1],
+      longitude: result.coordinates[0]
     })
   }
 

@@ -9,7 +9,7 @@
   height: 100%;
 }
 
-.header {
+.header-page {
   position: fixed;
   display: flex;
   width: 100%;
@@ -45,7 +45,7 @@
     flex-grow:1;
     flex-direction:column;
     justify-content:center;
-
+    cursor: pointer;
     align-items: center;
     text-align: center;
   }
@@ -59,6 +59,7 @@
 .login {
   max-width: 300px;
   text-align: center;
+  margin-top: 30px;
 }
 
 .home {
@@ -79,6 +80,23 @@
     padding-top: 10px;
     font-size: var(--size-400);
   }
+}
+
+.add-board-page {
+  margin-top: 15px;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.add-member-page {
+  margin-top: 15px;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 300px;
+  text-align: center;
+  
 }
 
 .boards {
