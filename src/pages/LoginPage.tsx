@@ -41,8 +41,9 @@ const LoginPage = () => {
         <Form.Button type="submit">Connexion</Form.Button>
       </Form>
 
-      <h4>Pour obtenir un accès, veuillez contacter @SuperBasque sur Telegram</h4>
-      <p>Cette application est optimisée pour mobile.</p>
+      <p>Le site est optimisé pour une utilisation sur smartphone.</p>
+      <p>Suivre le <a href="http://t.me/jamapapp" target="_blank" rel="noreferrer">canal Telegram</a></p>
+      <p>Développé par <a href="http://pierrefournier.dev" target="_blank" rel="noreferrer">Pierre Fournier</a> (DM par <a href="https://t.me/superbasque" target="_blank" rel="noreferrer">Telegram</a> pour recevoir des identifiants).<br/>Logo par Océane Larousse</p>
     </Layout>
   );
 };
