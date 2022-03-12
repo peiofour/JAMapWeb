@@ -74,7 +74,6 @@ const AddMemberPage = () => {
           label="Mot de passe"
           fluid
           placeholder="Password"
-          type="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
@@ -86,7 +85,6 @@ const AddMemberPage = () => {
           placeholder="Confirm password"
           value={confirmPassword}
           onChange={e => setConfirmPassword(e.target.value)}
-          type="password"
           required
         />
         <Message
