@@ -38,7 +38,7 @@ const AddMemberPage = () => {
     if(!user) return navigate("/login");
     fetchUserRole()
     if(role === "") return;
-    if(role !== "admin") return navigate("/")
+    if(role === "member") return navigate("/")
   })
 
   const createAccount = () => {
