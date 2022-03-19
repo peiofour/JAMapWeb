@@ -7,6 +7,20 @@ import Layout from '../components/Layout';
 import { auth, registerWithEmailAndPassword, firestoreDb } from '../utils/firebase';
 import { query, collection, getDocs, where } from "firebase/firestore";
 
+const RefOptions = [
+  { key: 'member', text: 'Simple Adhérant', value: 'member' },
+]
+
+const RespoOptions = [
+  { key: 'member', text: 'Simple Adhérant', value: 'member' },
+  { key: 'referent', text: 'Référent', value: 'referent' },
+]
+
+const AdminOptions = [
+  { key: 'member', text: 'Simple Adhérant', value: 'member' },
+  { key: 'referent', text: 'Référent', value: 'referent' },
+  { key: 'responsable', text: 'Responsable Régional/National', value: 'responsable' },
+]
 
 const AddMemberPage = () => {
   const navigate = useNavigate();
@@ -20,7 +34,9 @@ const AddMemberPage = () => {
   const [err, setErr] = useState(false);
   const [load, setLoad] = useState(false)
 
+
   const [role, setRole] = useState("");
+  const [userRole, setUserRole] = useState<string|undefined>("member");
 
   const fetchUserRole = async () => {
     try {
@@ -53,13 +69,26 @@ const AddMemberPage = () => {
       return
     }
     setLoad(true);
-    registerWithEmailAndPassword(email, password, "member").then(()=>{
+    registerWithEmailAndPassword(email, password, userRole).then(()=>{
       setLoad(false)
     })
   }
+
+  const options = () => {
+    switch(role){
+      case "referent":
+        return RefOptions;
+      case "responsable":
+        return RespoOptions;
+      case "admin":
+        return AdminOptions;
+      default:
+        return RespoOptions;
+    }
+  }
   
   return (
-    <Layout title="Ajouter un membre" className="add-member-page container">
+    <Layout title="Ajouter un member" className="add-member-page container">
       <Form loading={load} error={err} onSubmit={createAccount}>
         <Form.Input
           label="Nom d'utilisateur"
@@ -91,6 +120,12 @@ const AddMemberPage = () => {
           error
           header='Erreur'
           content="Nom d'utlisateur : 4 caractères minimum. Mot de passe : 6 caractères minimum."
+        />
+        <Form.Select
+          options={options()}
+          defaultValue='member'
+          // @ts-ignore: Unreachable code error
+          onChange={(e, data)=>setUserRole(data.value)}
         />
         <Form.Button type="submit">Ajouter</Form.Button>
       </Form>
