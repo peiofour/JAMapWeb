@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import { Form, Message } from 'semantic-ui-react';
+import { logEvent } from 'firebase/analytics';
+
 
 import Layout from '../components/Layout';
-import { auth, registerWithEmailAndPassword, firestoreDb } from '../utils/firebase';
+import { auth, registerWithEmailAndPassword, firestoreDb, analytics } from '../utils/firebase';
 import { query, collection, getDocs, where } from "firebase/firestore";
 
 const RefOptions = [
@@ -69,6 +71,7 @@ const AddMemberPage = () => {
       return
     }
     setLoad(true);
+    logEvent(analytics, "Create account", {value: user?.uid})
     registerWithEmailAndPassword(email, password, userRole).then(()=>{
       setLoad(false)
     })

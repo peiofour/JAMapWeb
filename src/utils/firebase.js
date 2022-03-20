@@ -2,12 +2,10 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase } from "firebase/database";
 import { 
   getFirestore,
-  query,
-  getDocs,
   collection,
-  where,
   addDoc, 
 } from "firebase/firestore";
+
 import {
   getAuth,
   //signInWithPopup,
@@ -16,6 +14,9 @@ import {
   //sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
+
+import { getAnalytics } from "firebase/analytics";
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -30,10 +31,14 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 }
 
+
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 const database = getDatabase(app)
 const firestoreDb = getFirestore(app);
+
+const analytics = getAnalytics();
 
 //Auth
 
@@ -71,7 +76,8 @@ export {
   auth,
   database,
   firestoreDb,
+  analytics,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
-  logout
+  logout,
 }

@@ -4,11 +4,12 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from 'react-router-dom';
 import MapGL from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { logEvent } from 'firebase/analytics';
 
 import {ReactComponent as MarkerLogo} from "../assets/icons/map-pin.svg";
 
 import { ref, update, push, child, get } from "firebase/database";
-import { auth, database as db } from "../utils/firebase";
+import { auth, database as db, analytics } from "../utils/firebase";
 
 import LocationSearch from '../components/LocationSearch';
 import { Button } from 'semantic-ui-react';
@@ -68,6 +69,8 @@ const AddBoardPage = () => {
     }
   
     const updates = {};
+
+    logEvent(analytics, "Add board", {value: user?.uid})
   
     get(child(ref(db), "boards")).then(snapshot => {
       board.id = snapshot.val().length
@@ -85,6 +88,7 @@ const AddBoardPage = () => {
         bearing: 0,
         pitch: 0})
     })
+    
   }
 
   return (
