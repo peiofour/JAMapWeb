@@ -10,19 +10,19 @@ const NavbarBottom = () => {
 
   return (
   <nav className="navbar-bottom">
-    <div className="navbar-bottom__item" onClick={()=>navigate("/")}>
+    <div className={window.location.pathname === "/" ? "navbar-bottom__item selected":"navbar-bottom__item"} onClick={()=>navigate("/")}>
       <HomeLogo
         width={25}
         height={25}
       />
     </div>
-    <div className="navbar-bottom__item" onClick={()=>navigate("/addboard")}>
+    <div className={window.location.pathname === "/addboard" ? "navbar-bottom__item selected":"navbar-bottom__item"} onClick={()=>navigate("/addboard")}>
       <AddLogo
         width={25}
         height={25}
       />
     </div>
-    <div className="navbar-bottom__item" onClick={()=>navigate("/boards")}>
+    <div className={window.location.pathname === "/boards" ? "navbar-bottom__item selected":"navbar-bottom__item"} onClick={()=>navigate("/boards")}>
       <MapLogo
         width={25}
         height={25} 

@@ -99,8 +99,15 @@ const AddBoardPage = () => {
         {
           (viewport.latitude !== undefined && viewport.longitude !== undefined) &&
           <>
-            <h5>[{viewport.latitude} • {viewport.longitude}]</h5>
             <p>Déplacez la carte pour améliorer la précision</p>
+            <Button
+                color="green"
+                style={{marginBottom:"10px"}}
+                onClick={addBoard}
+                loading={isLoading}
+              >
+              Ajouter le panneau
+            </Button>
             <MapGL
               {...viewport}
               onViewportChange={setViewport}
@@ -118,14 +125,8 @@ const AddBoardPage = () => {
                 />
               </div>
             </MapGL>
-            <Button
-              color="green"
-              style={{marginTop:"15px"}}
-              onClick={addBoard}
-              loading={isLoading}
-            >
-              Ajouter le panneau
-            </Button>
+            <h5 className="ete">[{viewport.latitude} • {viewport.longitude}]</h5>
+
           </>
         }
       </div>

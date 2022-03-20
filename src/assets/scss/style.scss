@@ -38,7 +38,9 @@
   display: flex;
   position: fixed;
   bottom: 0;
+  z-index: 10;
   background-color: var(--background-light);
+  box-shadow: 0 5px 35px;
 
   &__item {
     display:flex;
@@ -50,6 +52,9 @@
     text-align: center;
   }
 }
+.selected {
+  fill: var(--navbar);
+} 
 
 .container {
   margin-left: auto;
@@ -87,6 +92,12 @@
   text-align: center;
   padding-left: 15px;
   padding-right: 15px;
+  .results {
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .add-member-page {
@@ -97,6 +108,9 @@
   width: 300px;
   text-align: center;
   
+}
+.ete {
+  margin-top: 10px !important;
 }
 
 .boards {
@@ -219,6 +233,7 @@ code {
   
   --background-dark: #082032;
   --background-light: #edf6f9;
+  --navbar: #a2a9ac;
 
   --text-dark: #e6e6e6;
   --text-light: #333;
