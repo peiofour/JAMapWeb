@@ -10,16 +10,16 @@ import { auth, registerWithEmailAndPassword, firestoreDb, analytics } from '../u
 import { query, collection, getDocs, where } from "firebase/firestore";
 
 const RefOptions = [
-  { key: 'member', text: 'Simple Adhérant', value: 'member' },
+  { key: 'member', text: 'Adhérent', value: 'member' },
 ]
 
 const RespoOptions = [
-  { key: 'member', text: 'Simple Adhérant', value: 'member' },
+  { key: 'member', text: 'Adhérent', value: 'member' },
   { key: 'referent', text: 'Référent', value: 'referent' },
 ]
 
 const AdminOptions = [
-  { key: 'member', text: 'Simple Adhérant', value: 'member' },
+  { key: 'member', text: 'Adhérent', value: 'member' },
   { key: 'referent', text: 'Référent', value: 'referent' },
   { key: 'responsable', text: 'Responsable Régional/National', value: 'responsable' },
 ]
