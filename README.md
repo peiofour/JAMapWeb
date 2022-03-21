@@ -1,46 +1,28 @@
-# Getting Started with Create React App
+# JAMap 🪣🧹
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+JAMap is an application built in React for french elections campaigns.
+The application shows you where the free speech boards are located on the territory.
 
-## Available Scripts
+You can find them by location, add new ones, get there itinerary in Waze and Google Maps, disable those that have disappeared.
 
-In the project directory, you can run:
+## Stack
 
-### `npm start`
+Build with React and Firebase for backend and databases.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To launch the app on local :
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+npm install 
+npm start
+```
 
-### `npm test`
+## About the data
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Only the source code of the application is open. You are free to create your JAMap version using your own data.
 
-### `npm run build`
+The access of the original JAMap app is restricted by login.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## License
+The source code is under MIT License
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Copyright (c) Pierre Fournier
