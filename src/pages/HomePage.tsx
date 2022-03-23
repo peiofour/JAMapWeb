@@ -48,7 +48,7 @@ const HomePage = () => {
         </Button>
       </div>
       {
-        role === "admin"&&
+        role !== "member"  &&
         <div style={{marginTop:"10px"}}>
           <Button color="red" onClick={()=>{navigate("/addmember")}}>
             [Admin] Ajouter un membre
