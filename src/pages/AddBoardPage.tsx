@@ -2,17 +2,37 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from 'react-router-dom';
-import MapGL from 'react-map-gl';
+import MapGL, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { logEvent } from 'firebase/analytics';
 
 import {ReactComponent as MarkerLogo} from "../assets/icons/map-pin.svg";
 
-import { ref, update, push, child, get } from "firebase/database";
+import { ref, update, push, child, get, onValue } from "firebase/database";
 import { auth, database as db, analytics } from "../utils/firebase";
 
 import LocationSearch from '../components/LocationSearch';
 import { Button } from 'semantic-ui-react';
+
+
+function toRad(degrees: number)
+{
+  return degrees * Math.PI/180;
+}
+
+function calcDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371; // km
+  const dLat = toRad(lat2-lat1);
+  const dLon = toRad(lon2-lon1);
+  lat1 = toRad(lat1);
+  lat2 = toRad(lat2);
+
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  const d = R * c;
+  return d;
+}
 
 const AddBoardPage = () => {
   const [viewport, setViewport] = useState<{
@@ -28,6 +48,23 @@ const AddBoardPage = () => {
     bearing: 0,
     pitch: 0,
   });
+
+  const [markers, setMarkers] = useState<{
+    id: number | string;
+    latitude: number;
+    longitude: number;
+    createdAt: Date;
+    isDisabled: Boolean;
+    lastValidationDate:  string; }[]>([]);
+    
+  useEffect(() => {
+    onValue(ref(db, 'boards'), (snapshot) => {
+      setMarkers(snapshot.val())
+    }, {
+      onlyOnce: true
+    })
+  }, [])
+  
 
   const [isLoading, setLoading] = useState<boolean>(false);
   const [city, setCity] = useState<string| undefined>()
@@ -91,6 +128,20 @@ const AddBoardPage = () => {
     
   }
 
+  const showMarker = (marker: {
+    id: number | string;
+    latitude: number;
+    longitude: number;
+    createdAt: Date;
+    isDisabled: Boolean;
+    lastValidationDate: string; }):boolean => {
+    
+    if(viewport.latitude === undefined || viewport.longitude === undefined){
+      return false
+    }
+    return 'latitude' in marker && !marker.isDisabled && calcDistance(marker.latitude, marker.longitude, viewport.latitude, viewport.longitude) < 10
+  }
+
   return (
     <Layout className="add-board-page" title="Ajouter un panneau">
       <div>
@@ -124,6 +175,20 @@ const AddBoardPage = () => {
                   height={30} 
                 />
               </div>
+              {
+                markers.map((m, id) => showMarker(m) ?
+                <Marker
+                  key={id}
+                  longitude={m.longitude}
+                  latitude={m.latitude}
+                  offsetLeft={-10}
+                  offsetTop={-15}
+                >
+                  <span key={id} className="dot"/>
+                </Marker>:null
+                  
+                )
+              }
             </MapGL>
             <h5 className="ete">[{viewport.latitude} • {viewport.longitude}]</h5>
 

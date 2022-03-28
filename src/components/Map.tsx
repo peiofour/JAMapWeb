@@ -5,6 +5,7 @@ import { Button, Icon } from 'semantic-ui-react';
 import ClickAwayListener from 'react-click-away-listener';
 
 import {ReactComponent as MarkerLogo} from "../assets/icons/map-pin.svg";
+import {ReactComponent as MarkerLogoCheck} from "../assets/icons/map-pin-green.svg";
 import {ReactComponent as GoogleLogo} from "../assets/icons/google-brands.svg";
 import {ReactComponent as WazeLogo} from "../assets/icons/waze-brands.svg";
 import {ReactComponent as WarningLogo} from "../assets/icons/triangle-exclamation-solid.svg";
@@ -35,6 +36,25 @@ const geolocateControlStyle= {
   transform: 'scale(1.25)'
 };
 
+
+const today = new Date();
+
+const dateEarlier = (date: string):boolean => {
+  const dateParts = (date.split(' à ')[0].split(',')[0]).split("/");
+  const myDate = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]);
+
+  if(date === 'Jamais') {
+    return false
+  }
+
+  else if (myDate instanceof Date){
+    const diffTime = today.getTime() - myDate.getTime();
+    const diffDays = diffTime / (1000 * 3600 * 24);
+    return diffDays < 1
+  }
+  return false
+}
+
 interface Props {
   markers: {
     id: number | string;
@@ -42,13 +62,13 @@ interface Props {
     longitude: number;
     createdAt: Date;
     isDisabled: Boolean;
-    lastValidationDate: Date | string; }[];
+    lastValidationDate: string; }[];
   centerPos: {latitude: number, longitude: number};
   onValidateBoard: Function;
   onDisableBoard: Function;
 }
 const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoard}) => {
-  const [popup, setPopup] = useState<{id: number | string, longitude: number, latitude: number, lastValidationDate: Date | string } | null>(null);
+  const [popup, setPopup] = useState<{id: number | string, longitude: number, latitude: number, lastValidationDate: string | Date } | null>(null);
   const [disablePopup, setDisablePopup] = useState<boolean>(false);
   const [viewport, setViewport] = useState({
     latitude: 43.56767434009124,
@@ -75,10 +95,6 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
 
   const validateBoard = ():void => {
     onValidateBoard(popup?.id)
-    const date = new Date().toLocaleString("fr-FR");
-    if(popup) {
-      setPopup({...popup, lastValidationDate: date})
-    }
   }
 
   const showMarker = (marker: {
@@ -87,7 +103,7 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
     longitude: number;
     createdAt: Date;
     isDisabled: Boolean;
-    lastValidationDate: Date | string; }):boolean => {
+    lastValidationDate: string; }):boolean => {
 
     return 'latitude' in marker && !marker.isDisabled && calcDistance(marker.latitude, marker.longitude, viewport.latitude, viewport.longitude) < 10
   }
@@ -124,14 +140,25 @@ const Map:React.FC<Props> = ({markers, centerPos, onValidateBoard, onDisableBoar
                   offsetLeft={-10}
                   offsetTop={-15}
                 >
-                  <MarkerLogo
-                    style={{cursor: "pointer"}}
-                    onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
-                    className={popup?.id === m.id ? "svg-marker" : ''}
-                    fill="red"
-                    width={30} 
-                    height={30} 
-                  />
+                  { 
+                    dateEarlier(m.lastValidationDate) ?
+                    <MarkerLogoCheck
+                      style={{cursor: "pointer"}}
+                      onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
+                      className={popup?.id === m.id ? "svg-marker" : ''}
+                      width={30} 
+                      height={30} 
+                    /> 
+                  :
+                    <MarkerLogo
+                      style={{cursor: "pointer"}}
+                      onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
+                      className={popup?.id === m.id ? "svg-marker" : ''}
+                      width={30} 
+                      height={30} 
+                    />
+                  }
+                  
                 </Marker>
               ):null)
             }
