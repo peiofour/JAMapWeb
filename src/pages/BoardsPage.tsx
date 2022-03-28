@@ -26,10 +26,9 @@ const BoardsPage = () => {
     longitude: number;
     createdAt: Date;
     isDisabled: Boolean;
-    lastValidationDate: Date | string; }[]>([]);
+    lastValidationDate:  string; }[]>([]);
   
   const [coordinates, setCoordinates] = useState({latitude: 43.56767434009124, longitude: 1.464428488224958});
-  //const [loading, setLoading] = useState(false);
   
   useEffect(() => {
     onValue(ref(db, 'boards'), (snapshot) => {
@@ -58,7 +57,13 @@ const BoardsPage = () => {
 
   const handleBoardValidate = (id: number | String) => {
     const date = new Date();
-    set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleString("fr-FR"))
+    set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleString("fr-FR")).then(() => {
+      onValue(ref(db, 'boards'), (snapshot) => {
+        setMarkers(snapshot.val())
+      }, {
+        onlyOnce: true
+      })
+    })
   }
 
   const handleDisableBoard = (id: number | String) => {
