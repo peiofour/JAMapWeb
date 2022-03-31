@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from 'react-router-dom';
 
-import { auth } from "../utils/firebase";
+import { auth, analytics } from "../utils/firebase";
+import { logEvent } from 'firebase/analytics';
+
 
 import Layout from '../components/Layout';
 import LocationSearch from '../components/LocationSearch';
@@ -32,6 +34,7 @@ const BoardsPage = () => {
   
   useEffect(() => {
     onValue(ref(db, 'boards'), (snapshot) => {
+      console.log(snapshot.val());
       setMarkers(snapshot.val())
     }, {
       onlyOnce: true
@@ -58,6 +61,11 @@ const BoardsPage = () => {
   const handleBoardValidate = (id: number | String) => {
     const date = new Date();
     set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleString("fr-FR")).then(() => {
+      logEvent(analytics, "Validate Board", {
+        user: user?.uid,
+        board: id,
+        date: date
+      })
       onValue(ref(db, 'boards'), (snapshot) => {
         setMarkers(snapshot.val())
       }, {

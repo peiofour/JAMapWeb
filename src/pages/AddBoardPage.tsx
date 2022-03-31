@@ -107,7 +107,7 @@ const AddBoardPage = () => {
   
     const updates = {};
 
-    logEvent(analytics, "Add board", {value: user?.uid})
+    
   
     get(child(ref(db), "boards")).then(snapshot => {
       board.id = snapshot.val().length
@@ -117,6 +117,13 @@ const AddBoardPage = () => {
       updates[`/boards/${board.id}`] = board;
       update(ref(db), updates)
       setLoading(false);
+      logEvent(analytics, "Add board", {
+        user: user?.uid,
+        id: board.id,
+        latitude: board.latitude,
+        longitude: board.longitude,
+        date: date
+      })
       alert("Panneau ajouté !")
       setViewport({
         latitude: undefined,

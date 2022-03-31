@@ -71,9 +71,11 @@ const AddMemberPage = () => {
       return
     }
     setLoad(true);
-    logEvent(analytics, "Create account", {value: user?.uid})
+    
     registerWithEmailAndPassword(email, password, userRole).then(()=>{
+      logEvent(analytics, "Create account", {user: user?.uid})
       setLoad(false)
+      alert(`Membre ajouté !\nIdentifiant : ${email}\nMot de password : ${password}`)
     })
   }
 
