@@ -29,13 +29,25 @@ const BoardsPage = () => {
     createdAt: Date;
     isDisabled: Boolean;
     lastValidationDate:  string; }[]>([]);
+
+    const [officials, setOfficials] = useState<{
+      id: number | string;
+      latitude: number;
+      longitude: number;
+      isDisabled: Boolean;
+      lastValidationDate:  string; }[]>([]);
   
   const [coordinates, setCoordinates] = useState({latitude: 43.56767434009124, longitude: 1.464428488224958});
   
   useEffect(() => {
     onValue(ref(db, 'boards'), (snapshot) => {
-      console.log(snapshot.val());
       setMarkers(snapshot.val())
+    }, {
+      onlyOnce: true
+    })
+
+    onValue(ref(db, 'official_boards'), (snapshot) => {
+      setOfficials(snapshot.val())
     }, {
       onlyOnce: true
     })
@@ -58,26 +70,58 @@ const BoardsPage = () => {
     })
   }
 
-  const handleBoardValidate = (id: number | String) => {
+  const handleBoardValidate = (id: number | String, type: "board"|"official") => {
     const date = new Date();
-    set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleString("fr-FR")).then(() => {
-      logEvent(analytics, "Validate Board", {
-        user: user?.uid,
-        board: id,
-        date: date
+
+
+    if(type==="board"){
+      set(ref(db, 'boards/' + id + '/lastValidationDate'), date.toLocaleString("fr-FR")).then(() => {
+        logEvent(analytics, "Validate Board", {
+          user: user?.uid,
+          board: id,
+          date: date
+        })
+        onValue(ref(db, 'boards'), (snapshot) => {
+          setMarkers(snapshot.val())
+        }, {
+          onlyOnce: true
+        })
       })
-      onValue(ref(db, 'boards'), (snapshot) => {
-        setMarkers(snapshot.val())
-      }, {
-        onlyOnce: true
+    } else if(type === "official"){
+      set(ref(db, 'official_boards/' + id + '/lastValidationDate'), date.toLocaleString("fr-FR")).then(() => {
+        logEvent(analytics, "Validate Official", {
+          user: user?.uid,
+          board: id,
+          date: date
+        })
+        onValue(ref(db, 'official_boards'), (snapshot) => {
+          setOfficials(snapshot.val())
+        }, {
+          onlyOnce: true
+        })
       })
-    })
+    }
   }
 
-  const handleDisableBoard = (id: number | String) => {
-    set(ref(db, 'boards/' + id + '/isDisabled'), true).then(() => {
-      get(child(ref(db), 'boards')).then((snapshot) => {setMarkers(snapshot.val())})
-    })
+  const handleDisableBoard = (id: number | String, type: "board"|"official") => {
+    if (type === "board"){
+      set(ref(db, 'boards/' + id + '/isDisabled'), true).then(() => {
+        get(child(ref(db), 'boards')).then((snapshot) => {setMarkers(snapshot.val())})
+      })
+      logEvent(analytics, "Disable Board", {
+        user: user?.uid,
+        board: id,
+      })
+    }
+    else if (type === "official") {
+      set(ref(db, 'official_boards/' + id + '/isDisabled'), true).then(() => {
+        get(child(ref(db), 'official_boards')).then((snapshot) => {setOfficials(snapshot.val())})
+      })
+      logEvent(analytics, "Disable Official", {
+        user: user?.uid,
+        board: id,
+      })
+    }
   }
 
   return(
@@ -86,6 +130,7 @@ const BoardsPage = () => {
       <Map
         centerPos={coordinates}
         markers={markers}
+        officials={officials}
         onDisableBoard={handleDisableBoard}
         onValidateBoard={handleBoardValidate}
       />
