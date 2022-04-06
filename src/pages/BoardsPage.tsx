@@ -29,13 +29,25 @@ const BoardsPage = () => {
     createdAt: Date;
     isDisabled: Boolean;
     lastValidationDate:  string; }[]>([]);
+
+    const [officials, setOfficials] = useState<{
+      id: number | string;
+      latitude: number;
+      longitude: number;
+      isDisabled: Boolean;
+      lastValidationDate:  string; }[]>([]);
   
   const [coordinates, setCoordinates] = useState({latitude: 43.56767434009124, longitude: 1.464428488224958});
   
   useEffect(() => {
     onValue(ref(db, 'boards'), (snapshot) => {
-      console.log(snapshot.val());
       setMarkers(snapshot.val())
+    }, {
+      onlyOnce: true
+    })
+
+    onValue(ref(db, 'official_boards'), (snapshot) => {
+      setOfficials(snapshot.val())
     }, {
       onlyOnce: true
     })
@@ -86,6 +98,7 @@ const BoardsPage = () => {
       <Map
         centerPos={coordinates}
         markers={markers}
+        officials={officials}
         onDisableBoard={handleDisableBoard}
         onValidateBoard={handleBoardValidate}
       />

@@ -106,7 +106,6 @@
   background-color: rgb(223, 72, 72);
   border-radius: 50%;
   display: inline-block;
-
 }
 
 .add-member-page {
@@ -146,6 +145,30 @@
 .map {
   height: 100%;
   overflow: auto;
+  .choose-type-popup {
+    position: absolute;
+    width: 120px;
+    height: 80px;
+    background-color: var(--background-dark);
+    box-shadow: 0 5px 35px;
+    border-radius: 20px;
+    left: 20px;
+    bottom: 20px;
+    z-index: 9;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    padding-left: 20px;
+    h5{
+      margin-top: 5px;
+    }
+    form {
+      padding-top: 10px
+    }
+    label {
+      color: white !important;
+    }
+  }
   .disable-popup {
     z-index: 11;
     position: absolute;
