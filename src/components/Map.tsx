@@ -75,7 +75,7 @@ interface Props {
   onDisableBoard: Function;
 }
 const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, onDisableBoard}) => {
-  const [popup, setPopup] = useState<{id: number | string, longitude: number, latitude: number, lastValidationDate: string | Date } | null>(null);
+  const [popup, setPopup] = useState<{type: "board"|"official",id: number | string, longitude: number, latitude: number, lastValidationDate: string | Date } | null>(null);
   const [disablePopup, setDisablePopup] = useState<boolean>(false);
 
   const [show, setShow] = useState({
@@ -101,13 +101,13 @@ const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, on
   }, [centerPos.latitude, centerPos.longitude])
 
   const disableBoard = ():void => {
-    onDisableBoard(popup?.id)
+    onDisableBoard(popup?.id, popup?.type)
     setDisablePopup(false);
     setPopup(null);
   }
 
   const validateBoard = ():void => {
-    onValidateBoard(popup?.id)
+    onValidateBoard(popup?.id, popup?.type)
   }
 
   const showMarker = (marker: {
@@ -176,7 +176,7 @@ const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, on
                     dateEarlier(m.lastValidationDate) ?
                     <MarkerLogoCheck
                       style={{cursor: "pointer"}}
-                      onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
+                      onClick={()=>setPopup({type:"board", id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
                       className={popup?.id === m.id ? "svg-marker" : ''}
                       width={30} 
                       height={30} 
@@ -184,7 +184,7 @@ const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, on
                   :
                     <MarkerLogo
                       style={{cursor: "pointer"}}
-                      onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
+                      onClick={()=>setPopup({type:"board", id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
                       className={popup?.id === m.id ? "svg-marker" : ''}
                       width={30} 
                       height={30} 
@@ -204,13 +204,25 @@ const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, on
                   offsetLeft={-10}
                   offsetTop={-15}
                 >
+                  { 
+                  dateEarlier(m.lastValidationDate) ?
+                  <MarkerLogoCheck
+                    style={{cursor: "pointer"}}
+                    onClick={()=>setPopup({type:"official", id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
+                    className={popup?.id === m.id ? "svg-marker" : ''}
+                    width={25} 
+                    height={25} 
+                  />
+                  :
                   <MarkerOfficialLogo
-                      style={{cursor: "pointer"}}
-                      onClick={()=>setPopup({ id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
-                      className={popup?.id === m.id ? "svg-marker" : ''}
-                      width={25} 
-                      height={30} 
-                    />
+                    style={{cursor: "pointer"}}
+                    onClick={()=>setPopup({type:"official", id: m.id, longitude: m.longitude, latitude: m.latitude, lastValidationDate: m.lastValidationDate })}
+                    className={popup?.id === m.id ? "svg-marker" : ''}
+                    width={25} 
+                    height={25} 
+                  />
+                }
+                  
                 </Marker>
               ):null):null
             }
