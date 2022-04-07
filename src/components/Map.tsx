@@ -42,7 +42,15 @@ const today = new Date();
 
 const dateEarlier = (date: string):boolean => {
   const dateParts = (date.split(' à ')[0].split(',')[0]).split("/");
-  const myDate = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]);
+
+  let hourParts: (string | number)[] = []
+  if (date.includes("à")){
+    hourParts = (date.split(' à ')[1]).split(":");
+  }  else if(date.includes(",")){
+    hourParts = (date.split(',')[1]).split(":");
+  }
+  
+  const myDate = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0], +hourParts[0], +hourParts[1], +hourParts[2]);
 
   if(date === 'Jamais') {
     return false
