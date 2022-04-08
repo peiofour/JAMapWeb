@@ -59,7 +59,7 @@ const dateEarlier = (date: string):boolean => {
   else if (myDate instanceof Date){
     const diffTime = today.getTime() - myDate.getTime();
     const diffDays = diffTime / (1000 * 3600 * 24);
-    return diffDays < 1
+    return diffDays < 0.5
   }
   return false
 }

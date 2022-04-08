@@ -11,6 +11,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
   const [role, setRole] = useState("");
+  const [name, setName] = useState("")
 
   const fetchUserRole = async () => {
     try {
@@ -18,6 +19,7 @@ const HomePage = () => {
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
       setRole(data.role)
+      setName(data.email)
     } catch (err) {
       console.error(err);
     }
@@ -36,7 +38,11 @@ const HomePage = () => {
         <img src={process.env.PUBLIC_URL + '/images/broom.png'} alt="bucket" />
       </div>
       <p>JAMap est l'application qui centralise l'ensemble des panneaux d'expression libre en France. Elle va te permettre de les trouver plus facilement, d'avoir les itinéraires directement sur Waze ou Google Maps, d'avoir leur dernière date de collage, de signaler quand tu viens de coller des affiches dessus.</p>
-      <h3>À vos seaux et pinceaux, on a une campagne à gagner !</h3>
+      <h4>Bonjour {name}, vous êtes {role}.</h4>
+{/*       <h3>À vos seaux et pinceaux, on a une campagne à gagner !</h3>
+ */}      
+      <h3 style={{color:'red'}}>RAPPEL : à partir de vendredi 23h59 jusqu'à dimanche 20h, il est interdit de coller les panneaux d'expression libre.<br/> Vous pouvez toujours coller les panneaux officiels.</h3>
+      <h4>Pour ce vendredi soir, les points seront verts pour les panneaux collés dans les dernières 12h.</h4>
       <div>
         <Button color="brown" onClick={()=>{navigate("/boards")}}>
           Accéder à la carte
@@ -48,7 +54,7 @@ const HomePage = () => {
         </Button>
       </div>
       {
-        role !== "member"  &&
+        (role !== "member" && role !== "")  &&
         <div style={{marginTop:"10px"}}>
           <Button color="red" onClick={()=>{navigate("/addmember")}}>
             [Admin] Ajouter un membre
@@ -58,7 +64,7 @@ const HomePage = () => {
       <p>Le site est optimisé pour une utilisation sur smartphone.</p>
       <p>Suivre le <a href="http://t.me/jamapapp" target="_blank" rel="noreferrer">canal Telegram</a></p>
       <p>Développé par <a href="http://pierrefournier.dev" target="_blank" rel="noreferrer">Pierre Fournier</a> (<a href="https://t.me/superbasque" target="_blank" rel="noreferrer">Telegram</a>).<br/>Logo par Océane Larousse</p>
-      <Button color="grey" onClick={logout}>
+      <Button color="grey" onClick={logout} style={{marginBottom: "20px"}}>
         Se déconnecter
       </Button>
     </Layout>

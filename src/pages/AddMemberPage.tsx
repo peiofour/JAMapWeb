@@ -129,6 +129,7 @@ const AddMemberPage = () => {
         <Form.Select
           options={options()}
           defaultValue='member'
+          label="Rang"
           // @ts-ignore: Unreachable code error
           onChange={(e, data)=>setUserRole(data.value)}
         />
