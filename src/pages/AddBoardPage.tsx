@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from 'react-router-dom';
-import MapGL, { Marker } from 'react-map-gl';
+import MapGL, { GeolocateControl, Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { logEvent } from 'firebase/analytics';
 
@@ -14,6 +14,11 @@ import { auth, database as db, analytics } from "../utils/firebase";
 import LocationSearch from '../components/LocationSearch';
 import { Button } from 'semantic-ui-react';
 
+const geolocateControlStyle= {
+  right: 20,
+  bottom: 50,
+  transform: 'scale(1.25)'
+};
 
 function toRad(degrees: number)
 {
@@ -42,8 +47,8 @@ const AddBoardPage = () => {
     bearing: number,
     pitch: number
   }>({
-    latitude: undefined,
-    longitude: undefined,
+    latitude: 43.60548227045575,
+    longitude: 1.4434107126992626,
     zoom: 16,
     bearing: 0,
     pitch: 0,
@@ -67,7 +72,7 @@ const AddBoardPage = () => {
   
 
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [city, setCity] = useState<string| undefined>()
+  const [city, setCity] = useState<string>("")
     
   const navigate = useNavigate();
   const [user, loading, error] = useAuthState(auth);
@@ -76,12 +81,12 @@ const AddBoardPage = () => {
     if(!user) return navigate("/login");
   })
 
-  const handleSelect = (result:{
+  function handleSelect(result:{
     title: string,
     id: string,
     coordinates: Array<number>,
     city: string,
-  }) => {
+  }) {
     setViewport({
       ...viewport,
       latitude: result.coordinates[1],
@@ -90,7 +95,7 @@ const AddBoardPage = () => {
     setCity(result.city)
   }
 
-  const addBoard = () => {
+  function addBoard(type: 'board'|'official') {
     setLoading(true)
     const date = new Date();
 
@@ -98,40 +103,54 @@ const AddBoardPage = () => {
       latitude: viewport.latitude,
       longitude: viewport.longitude,
       source: user?.uid||"",
-      ville: city,
       createdAt: date.toLocaleString("fr-FR"),
       lastValidationDate: "Jamais",
       isDisabled: false,
       id: 0
     }
-  
+    
     const updates = {};
 
-    
-  
-    get(child(ref(db), "boards")).then(snapshot => {
-      board.id = snapshot.val().length
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      push(child(ref(db), 'boards')).key
-      // @ts-ignore: Unreachable code error
-      updates[`/boards/${board.id}`] = board;
-      update(ref(db), updates)
-      setLoading(false);
-      logEvent(analytics, "Add board", {
-        user: user?.uid,
-        id: board.id,
-        latitude: board.latitude,
-        longitude: board.longitude,
-        date: date
+    if(type === 'board') {
+      const nboard = {...board, ville: city}
+      get(child(ref(db), "boards")).then(snapshot => {
+        nboard.id = snapshot.val().length
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        push(child(ref(db), 'boards')).key
+        // @ts-ignore: Unreachable code error
+        updates[`/boards/${nboard.id}`] = nboard;
+        update(ref(db), updates)
+        setLoading(false);
+        logEvent(analytics, "Add board", {
+          user: user?.uid,
+          id: nboard.id,
+          latitude: nboard.latitude,
+          longitude: nboard.longitude,
+          date: date
+        })
+        
+        alert("Panneau d'expression libre ajouté !")
       })
-      alert("Panneau ajouté !")
-      setViewport({
-        latitude: undefined,
-        longitude: undefined,
-        zoom: 16,
-        bearing: 0,
-        pitch: 0})
-    })
+    } else if (type === "official") {
+      const nboard = {...board, city: city}
+      get(child(ref(db), "official_boards")).then(snapshot => {
+        nboard.id = snapshot.val().length
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        push(child(ref(db), 'official_boards')).key
+        // @ts-ignore: Unreachable code error
+        updates[`/official_boards/${nboard.id}`] = nboard;
+        update(ref(db), updates)
+        setLoading(false);
+        logEvent(analytics, "Add official", {
+          user: user?.uid,
+          id: nboard.id,
+          latitude: nboard.latitude,
+          longitude: nboard.longitude,
+          date: date
+        })
+        alert("Panneau officiel ajouté !")
+      })
+    }
     
   }
 
@@ -161,10 +180,18 @@ const AddBoardPage = () => {
             <Button
                 color="green"
                 style={{marginBottom:"10px"}}
-                onClick={addBoard}
+                onClick={() => addBoard('board')}
                 loading={isLoading}
               >
-              Ajouter le panneau
+              Ajouter un panneau libre
+            </Button>
+            <Button
+                color="purple"
+                style={{marginBottom:"10px"}}
+                onClick={() => addBoard('official')}
+                loading={isLoading}
+              >
+              Ajouter un panneau officiel
             </Button>
             <MapGL
               {...viewport}
@@ -174,6 +201,13 @@ const AddBoardPage = () => {
               height="50vh"
               mapStyle="mapbox://styles/peiofour/ckzil6aq0006915qzsow5t9x9"
             >
+              <GeolocateControl
+                style={geolocateControlStyle}
+                label='Ma position'
+                positionOptions={{enableHighAccuracy: true}}
+                trackUserLocation={true}
+                showAccuracyCircle={true}
+              />
               <div style={{marginTop:'25vh'}}>
                 <MarkerLogo
                   style={{cursor: "pointer"}}

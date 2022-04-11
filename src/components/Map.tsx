@@ -108,13 +108,13 @@ const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, on
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [centerPos.latitude, centerPos.longitude])
 
-  const disableBoard = ():void => {
+  function disableBoard():void {
     onDisableBoard(popup?.id, popup?.type)
     setDisablePopup(false);
     setPopup(null);
   }
 
-  const validateBoard = ():void => {
+  function validateBoard():void {
     onValidateBoard(popup?.id, popup?.type)
   }
 
