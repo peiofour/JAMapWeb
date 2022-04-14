@@ -41,8 +41,8 @@ const HomePage = () => {
       <h4>Bonjour {name}, vous êtes {role}.</h4>
 {/*       <h3>À vos seaux et pinceaux, on a une campagne à gagner !</h3>
  */}      
-      <h3 style={{color:'red'}}>RAPPEL : à partir de vendredi 23h59 jusqu'à dimanche 20h, il est interdit de coller les panneaux d'expression libre.<br/> Vous pouvez toujours coller les panneaux officiels.</h3>
-      <h4>Pour ce vendredi soir, les points seront verts pour les panneaux collés dans les dernières 12h.</h4>
+      {/* <h3 style={{color:'red'}}>RAPPEL : à partir de vendredi 23h59 jusqu'à dimanche 20h, il est interdit de coller les panneaux d'expression libre.<br/> Vous pouvez toujours coller les panneaux officiels.</h3>
+      <h4>Pour ce vendredi soir, les points seront verts pour les panneaux collés dans les dernières 12h.</h4> */}
       <div>
         <Button color="brown" onClick={()=>{navigate("/boards")}}>
           Accéder à la carte
