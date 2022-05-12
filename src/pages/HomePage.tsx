@@ -38,6 +38,7 @@ const HomePage = () => {
         <img src={process.env.PUBLIC_URL + '/images/broom.png'} alt="bucket" />
       </div>
       <p>JAMap est l'application qui centralise l'ensemble des panneaux d'expression libre en France. Elle va te permettre de les trouver plus facilement, d'avoir les itinéraires directement sur Waze ou Google Maps, d'avoir leur dernière date de collage, de signaler quand tu viens de coller des affiches dessus.</p>
+      <p>Suivre le <a href="http://t.me/jamapapp" target="_blank" rel="noreferrer">canal Telegram</a>.<br/> Développé par <a href="http://pierrefournier.dev" target="_blank" rel="noreferrer">Pierre Fournier</a> (<a href="https://t.me/superbasque" target="_blank" rel="noreferrer">Telegram</a>).<br/>Logo par Océane Larousse</p>
       <h4>Bonjour {name}, vous êtes {role}.</h4>
 {/*       <h3>À vos seaux et pinceaux, on a une campagne à gagner !</h3>
  */}      
@@ -62,8 +63,6 @@ const HomePage = () => {
         </div>
       }
       <p>Le site est optimisé pour une utilisation sur smartphone.</p>
-      <p>Suivre le <a href="http://t.me/jamapapp" target="_blank" rel="noreferrer">canal Telegram</a></p>
-      <p>Développé par <a href="http://pierrefournier.dev" target="_blank" rel="noreferrer">Pierre Fournier</a> (<a href="https://t.me/superbasque" target="_blank" rel="noreferrer">Telegram</a>).<br/>Logo par Océane Larousse</p>
       <Button color="grey" onClick={logout} style={{marginBottom: "20px"}}>
         Se déconnecter
       </Button>
