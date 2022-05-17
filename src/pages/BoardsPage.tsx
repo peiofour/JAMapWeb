@@ -16,7 +16,7 @@ import {ref, onValue, set, child, get} from "firebase/database";
 
 const BoardsPage = () => {
   const navigate = useNavigate();
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   useEffect(() => {
     if(loading) return;
     if(!user) return navigate("/login");
@@ -133,6 +133,7 @@ const BoardsPage = () => {
         officials={officials}
         onDisableBoard={handleDisableBoard}
         onValidateBoard={handleBoardValidate}
+        userId={user?.uid}
       />
     </Layout>
   )

@@ -3,6 +3,9 @@ import MapGL, {GeolocateControl, Marker} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button, Form, Icon } from 'semantic-ui-react';
 import ClickAwayListener from 'react-click-away-listener';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from "../utils/firebase";
+
 
 import {ReactComponent as MarkerLogo} from "../assets/icons/map-pin.svg";
 import {ReactComponent as MarkerLogoCheck} from "../assets/icons/map-pin-green.svg";
@@ -32,9 +35,10 @@ function calcDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
 }
 
 const geolocateControlStyle= {
-  right: 20,
-  bottom: 50,
-  transform: 'scale(1.25)'
+  right: 30,
+  bottom: 60,
+  transform: 'scale(1.5)',
+  zIndex: 10
 };
 
 
@@ -81,8 +85,9 @@ interface Props {
   centerPos: {latitude: number, longitude: number};
   onValidateBoard: Function;
   onDisableBoard: Function;
+  userId: string | undefined;
 }
-const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, onDisableBoard}) => {
+const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, onDisableBoard, userId}) => {
   const [popup, setPopup] = useState<{type: "board"|"official",id: number | string, longitude: number, latitude: number, lastValidationDate: string | Date } | null>(null);
   const [disablePopup, setDisablePopup] = useState<boolean>(false);
 
@@ -144,6 +149,7 @@ const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, on
           positionOptions={{enableHighAccuracy: true}}
           trackUserLocation={true}
           showAccuracyCircle={true}
+          auto={true}
         />
 
         <ClickAwayListener
@@ -251,7 +257,13 @@ const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, on
                       icon
                       color="blue"
                       labelPosition='left'
-                      onClick={()=>window.open(`https://www.waze.com/ul?ll=${popup.latitude}%2C${popup.longitude}&navigate=yes&zoom=17`)}
+                      onClick={()=>{
+                        logEvent(analytics, "Open Waze", {
+                          user: userId,
+                          board: popup.id,
+                        })
+                        window.open(`https://www.waze.com/ul?ll=${popup.latitude}%2C${popup.longitude}&navigate=yes&zoom=17`)
+                      }}
                     >
                       <Icon style={{paddingTop: "7px"}}>
                         <WazeLogo
@@ -267,7 +279,13 @@ const Map:React.FC<Props> = ({markers, officials, centerPos, onValidateBoard, on
                       icon
                       color="brown"
                       labelPosition='left'
-                      onClick={()=>window.open(`https://www.google.com/maps/search/?api=1&query=${popup.latitude}%2C${popup.longitude}`)}
+                      onClick={()=>{
+                        logEvent(analytics, "Open Google Maps", {
+                          user: userId,
+                          board: popup.id,
+                        })
+                        window.open(`https://www.google.com/maps/search/?api=1&query=${popup.latitude}%2C${popup.longitude}`)
+                      }}
                     >
                       <Icon style={{paddingTop: "7px"}}>
                         <GoogleLogo
